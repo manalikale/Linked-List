@@ -16,7 +16,7 @@ struct node
     struct node* next;
 };
 
-/* The function removes duplicates from a sorted list */
+
 void recursiveReverse(struct node** head_ref)
 {
     struct node* first;
