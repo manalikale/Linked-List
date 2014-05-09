@@ -1,7 +1,11 @@
 /*Program to remove duplicates from a sorted linked list 
  
  Time comlexity:O(n) where n is th enumber of elements in the linked list
- 
+
+Algorithm:
+Traverse the list from the head (or start) node. While traversing, compare each node with its next node. 
+If data of next node is same as current node then delete the next node. 
+Before we delete a node, we need to store next pointer of the node 
  
  */
 
