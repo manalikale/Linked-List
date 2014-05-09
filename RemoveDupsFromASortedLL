@@ -1,96 +1,102 @@
-
-
-/*
- Remove duplicates from a sorted linkedlist.
+/*Program to remove duplicates from a sorted linked list 
  
- Algo:
- 
- 
- Time: O(n^2)
+ Time comlexity:O(n) where n is th enumber of elements in the linked list
  
  
  */
 
-
-
 #include<iostream>
 
 using namespace std;
-
-struct node{
-    
+/* Link list node */
+struct node
+{
     int data;
-    struct node *next;
+    struct node* next;
 };
 
-void removeDuplicates(struct node *start)
+/* The function removes duplicates from a sorted list */
+void removeDuplicates(struct node* head)
 {
-    //Pointer to traverse the linked list
-    struct node *current=start;
-    //Pointer to store the next pointer of a node to be deleted
-    struct node *nextoftobedeleted;
-    //do nothing if the list is empty
-    if(current==start)
-    {
+    /* Pointer to traverse the linked list */
+    struct node* current = head;
+    
+    /* Pointer to store the next pointer of a node to be deleted*/
+    struct node* next_next;
+    
+    /* do nothing if the list is empty */
+    if(current == NULL)
         return;
-    }
     
-    //Traverse the list till the last node
-    while(current->next!=NULL)
+    /* Traverse the list till last node */
+    while(current->next != NULL)
     {
-        //Compare current node with the next node
-        if(current->data==current->next->data)
+        /* Compare current node with next node */
+        if(current->data == current->next->data)
         {
-            nextoftobedeleted=current->next->next;
+            /*The sequence of steps is important*/
+            next_next = current->next->next;
             free(current->next);
-            current->next=nextoftobedeleted;
+            current->next = next_next;
         }
-        else
-        {//only advance if there is no deletion
-            current=current->next;
+        else /* This is tricky: only advance if no deletion */
+        {
+            current = current->next;
         }
     }
-    
 }
 
-//Inserting backwards, last inserted element is the first element
-void push(struct node **start,int new_data)
+/* UTILITY FUNCTIONS */
+/* Function to insert a node at the beginging of the linked list */
+void push(struct node** head_ref, int new_data)
 {
-    node *new_node=new node();
-    new_node->data=new_data;
-    new_node->next=*start;
-    *start=new_node;
+    /* allocate node */
+    node* new_node = new node();
+    
+    /* put in the data  */
+    new_node->data  = new_data;
+    
+    /* link the old list off the new node */
+    new_node->next = (*head_ref);
+    
+    /* move the head to point to the new node */
+    (*head_ref)    = new_node;
 }
 
-void printlist(struct node *node)
+/* Function to print nodes in a given linked list */
+void printList(struct node *node)
 {
     while(node!=NULL)
     {
-        cout<<node->data;
-        node=node->next;
+        printf("%d ", node->data);
+        node = node->next;
     }
 }
+
+/* Drier program to test above functions*/
 int main()
 {
-    struct node *start = NULL;
+    /* Start with the empty list */
+    struct node* head = NULL;
     
-    /* The constructed linked list is:
-     10->12->11->11->12->11->10*/
-    push(&start, 5);
-    push(&start, 4);
-    push(&start, 3);
-    push(&start, 2);
-    push(&start, 2);
-    push(&start, 1);
-    push(&start, 1);
+    /* Let us create a sorted linked list to test the functions
+     Created linked list will be 11->11->11->13->13->20 */
+    push(&head, 20);
+    push(&head, 13);
+    push(&head, 13);
+    push(&head, 11);
+    push(&head, 11);
+    push(&head, 11);
     
-    cout<<"Linked list before removing duplicates:";
-    printlist(start);
-    
-    removeDuplicates(start);
-    
-    cout<<"\n Linked list after removing duplicates:";
-    printlist(start);
+    printf("Linked list before duplicate removal  ");
+    printList(head);
     cout<<endl;
-    return 0;
+    
+    /* Remove duplicates from linked list */
+    removeDuplicates(head);
+    
+    printf("Linked list after duplicate removal ");
+    printList(head);
+    cout<<endl;
+
 }
