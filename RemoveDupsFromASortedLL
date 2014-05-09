@@ -1,0 +1,96 @@
+
+
+/*
+ Remove duplicates from a sorted linkedlist.
+ 
+ Algo:
+ 
+ 
+ Time: O(n^2)
+ 
+ 
+ */
+
+
+
+#include<iostream>
+
+using namespace std;
+
+struct node{
+    
+    int data;
+    struct node *next;
+};
+
+void removeDuplicates(struct node *start)
+{
+    //Pointer to traverse the linked list
+    struct node *current=start;
+    //Pointer to store the next pointer of a node to be deleted
+    struct node *nextoftobedeleted;
+    //do nothing if the list is empty
+    if(current==start)
+    {
+        return;
+    }
+    
+    //Traverse the list till the last node
+    while(current->next!=NULL)
+    {
+        //Compare current node with the next node
+        if(current->data==current->next->data)
+        {
+            nextoftobedeleted=current->next->next;
+            free(current->next);
+            current->next=nextoftobedeleted;
+        }
+        else
+        {//only advance if there is no deletion
+            current=current->next;
+        }
+    }
+    
+}
+
+//Inserting backwards, last inserted element is the first element
+void push(struct node **start,int new_data)
+{
+    node *new_node=new node();
+    new_node->data=new_data;
+    new_node->next=*start;
+    *start=new_node;
+}
+
+void printlist(struct node *node)
+{
+    while(node!=NULL)
+    {
+        cout<<node->data;
+        node=node->next;
+    }
+}
+int main()
+{
+    struct node *start = NULL;
+    
+    /* The constructed linked list is:
+     10->12->11->11->12->11->10*/
+    push(&start, 5);
+    push(&start, 4);
+    push(&start, 3);
+    push(&start, 2);
+    push(&start, 2);
+    push(&start, 1);
+    push(&start, 1);
+    
+    cout<<"Linked list before removing duplicates:";
+    printlist(start);
+    
+    removeDuplicates(start);
+    
+    cout<<"\n Linked list after removing duplicates:";
+    printlist(start);
+    cout<<endl;
+    return 0;
+}
